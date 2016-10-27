@@ -1,8 +1,13 @@
 {
-	"server":"a.gelonghui.com",
-	"port":"80",
-	"proxyPort":"8080",
-	"transferUrl":[
+	"server":"localhost",
+	"port":"8080",                     
+	"proxyPort":"8888",               
+	"transferUrl":[                 
 		"/api"
-	]
+	],
+	"localFile":{					
+		"/a":"ab.html"
+
+	},
+	"ignoreQuestionMark":true
 }

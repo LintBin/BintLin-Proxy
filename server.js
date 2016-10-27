@@ -17,6 +17,7 @@ http.createServer(function(req, proxyRes){
 
 	var flag = false;
 
+	//配置了以XX开头的则去请求服务器
 	for(var i=0;i<transferUrls.length;i++){
 		var transferUrl = transferUrls[i];
 
@@ -26,6 +27,24 @@ http.createServer(function(req, proxyRes){
 		}
 	}
 
+	var localFileObj = config.localFile;
+
+
+
+	//处理是否指定url的代理
+	var temp ;
+	if(common.startWith(requestUrl,'/')){
+		temp = requestUrl.substring(1,requestUrl.length);
+	}
+
+	var fileUrl = localFileObj[temp];
+
+	if(fileUrl != undefined ){
+		requestUrl = "/" + fileUrl;
+		flag = false;
+	}
+
+	
 
 	//如果需要从服务器请求数据
 	if(flag){
@@ -41,7 +60,19 @@ http.createServer(function(req, proxyRes){
 		if(methodStr == "POST"){
 
 			req.on('data',function(data){
-				var postData = decodeURIComponent(data);
+
+				var contentType = req.headers['content-type'];
+
+				var postData;
+				if(common.startWith(contentType,"multipart/form-data")){
+				
+					postData = data;
+
+				}else{
+
+					postData = decodeURIComponent(data);
+
+				}
 
 				options.method = "POST";
 
@@ -54,11 +85,28 @@ http.createServer(function(req, proxyRes){
 		if(methodStr == "GET"){
 			options.method = "GET";
 
+			//是否要忽略掉"?"
+			if(config.ignoreQuestionMark){
+				if(requestUrl.indexOf(".html") != -1){
+					var questionMarkIndex = requestUrl.indexOf("?");
+					if(questionMarkIndex != -1){
+
+						requestUrl = requestUrl.substring(0,questionMarkIndex - 1);
+
+					}
+				}
+			}
+
+
+
+			
+			
+			
+
+
+
 			method.get(options,proxyRes);
 
-			/*fs.readFile('',function (err, data){
-	    		
-	    	});*/
 		}
 
 	    return ;
@@ -66,6 +114,8 @@ http.createServer(function(req, proxyRes){
 
 	//从本地取数据
 	requestUrl = requestUrl.slice(1,requestUrl.length);
+
+
 	fs.readFile(requestUrl,function (err, data){
 		//如果在本地找不到则到服务器端去找
 		if (err){

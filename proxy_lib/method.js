@@ -19,7 +19,7 @@ function get(options,proxyResponse){
 
 			var headers = serverRes.headers;
 			var serverLocation = headers.location;
-			//console.log(serverLocation);
+			
 			if(serverRes.statusCode == 302){
 				if(serverLocation.indexOf("localhost") != -1 ){
 
@@ -28,11 +28,14 @@ function get(options,proxyResponse){
 
 					regResult = regResult[0];
 
-					var	redirctPort ;
+					regResult = regResult.replace("localhost" , "");
+
+					var	redirctPort;
 
 					if(common.startWith(regResult,":")){
-						regResult = regResult.subStr(1,regResult.length);
-						redirctPort = regResult.replace("localhost:" , "");
+
+						regResult = regResult.substring (1,regResult.length - 1);
+						redirctPort = regResult;
 					}else{
 						redirctPort = 80;
 
@@ -40,21 +43,9 @@ function get(options,proxyResponse){
 						serverLocation = serverLocation.replace("localhost" , "localhost:80");
 					}
 
-				
-					if(redirctPort != config.port){
-						proxyResponse.write("重定向的端口和指定端口不一致，代理失败！");
-						proxyResponse.end();
+					serverLocation = serverLocation.replace(redirctPort,config.proxyPort);
 
-						return;
-					}else{
-
-						serverLocation = serverLocation.replace(redirctPort,config.proxyPort);
-
-						console.log(serverLocation);
-						headers.location = serverLocation;
-
-						console.log(headers);
-					}
+					headers.location = serverLocation;
 
 				}
 			}
@@ -93,10 +84,10 @@ function post(options,postData,proxyRes){
 		});
 
 		serverRes.on('end', function() {
-    		proxyRes.headers = serverRes.headers;
-    		proxyRes.write(body);
+			
+    		proxyRes.writeHead(serverRes.statusCode, serverRes.headers);
 
-    		console.log(body);
+    		proxyRes.write(body);
 
     		proxyRes.end();
   		});
