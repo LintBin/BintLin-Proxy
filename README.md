@@ -6,5 +6,7 @@
 
 使用：
 1、将server.js文件和proxy_lib文件夹放入到静态目录的根文件夹，例如放进eclipse里面的webContent文件夹
+
 2、修改proxy_lib中的config.json文件，将其配置成自己代理文件
+
 3、启动用node命令启动server.js ，即运行node server.js命令行
