@@ -14,7 +14,7 @@ function log(logStr){
 
 
 function close(){
-	logStr
+	rl.close();
 }
 
 exports.log = log;

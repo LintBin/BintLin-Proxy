@@ -87,7 +87,7 @@ http.createServer(function(req, proxyRes){
 
 			//是否要忽略掉"?"
 			if(config.ignoreQuestionMark){
-				if(requestUrl.indexOf(".html") != -1){
+				if(requestUrl.indexOf(".html") != -1 || requestUrl.indexOf(".js") || requestUrl.indexOf(".css") ){
 					var questionMarkIndex = requestUrl.indexOf("?");
 					if(questionMarkIndex != -1){
 
@@ -96,13 +96,6 @@ http.createServer(function(req, proxyRes){
 					}
 				}
 			}
-
-
-
-			
-			
-			
-
 
 
 			method.get(options,proxyRes);
@@ -115,6 +108,9 @@ http.createServer(function(req, proxyRes){
 	//从本地取数据
 	requestUrl = requestUrl.slice(1,requestUrl.length);
 
+	if(config.workspace != "" && config.workspace != undefined){
+		requestUrl = config.workspace + requestUrl
+	}
 
 	fs.readFile(requestUrl,function (err, data){
 		//如果在本地找不到则到服务器端去找
@@ -128,6 +124,7 @@ http.createServer(function(req, proxyRes){
 				path: "/" + requestUrl,
 				headers:req.headers
 			}
+
 
 			
 			method.get(options,proxyRes);

@@ -19,7 +19,7 @@ function get(options,proxyResponse){
 
 			var headers = serverRes.headers;
 			var serverLocation = headers.location;
-			
+
 			if(serverRes.statusCode == 302){
 				if(serverLocation.indexOf("localhost") != -1 ){
 
@@ -50,8 +50,11 @@ function get(options,proxyResponse){
 				}
 			}
 
+
 			proxyResponse.writeHead(serverRes.statusCode, headers);
     		proxyResponse.write(body);
+
+    		//console.log(body);
     		
     		proxyResponse.end();
 

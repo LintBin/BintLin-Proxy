@@ -1,12 +1,13 @@
 {
 	"server":"localhost",
-	"port":"8080",                     
+	"port":"13335",                     
 	"proxyPort":"8888",               
 	"transferUrl":[                 
 		"/api"
 	],
-	"localFile":{					
-		"/a":"ab.html"
+	"workspace":"",
+	"localFile":{
+		"a":"ab.html"
 
 	},
 	"ignoreQuestionMark":true
