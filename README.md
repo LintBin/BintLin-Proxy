@@ -14,13 +14,10 @@
 使用：
 
 
-1、将server.js文件和proxy_lib文件夹放入到静态目录的根文件夹，例如放进eclipse里面的webContent文件夹
+1、修改proxy_lib中的config.json文件，将其配置成自己代理文件
 
 
-2、修改proxy_lib中的config.json文件，将其配置成自己代理文件
-
-
-3、启动用node命令启动server.js ，即运行node server.js命令行
+2、启动用node命令启动server.js ，即运行node server.js命令行
 
 
 
@@ -35,21 +32,15 @@ config.json配置：
 
    		server：需要远程代理的服务器域名或者ip,如"www.baidu.com"
 
-
    		port: 需要远程代理的服务器的端口,如"80"
-
 
    		proxyPort：本机通过哪个端口访问远程服务器,如"8888"
 
-
    		transferUrl：以配置的列表里面开头的请求，全部转发到远程服务器
-
 
    		workspace：本地静态目录的路径
 
-
    		localFile：键值对，请求url为指定的key的时候，读取的是本地value路径的资源
-
 
    		ignoreQuestionMark：访问静态文件的时候，是否要忽略"?"极其后面的url部分。用来处理有localhost:8888/index.html?jstime=123456789的类似的情况
 
@@ -59,26 +50,18 @@ config.json配置：
 
 {
 
-	"server":"www.baidu.com",
+		"server":"www.baidu.com",
+		"port":"80", 
+		"proxyPort":"8888",    
+		"transferUrl":[ 
+			"/api"
+		],
+		"workspace":"D:\\data\\",
+		"localFile":{
+			"a":"ab.html"
+		},
 
-	"port":"80", 
-
-	"proxyPort":"8888",    
-
-	"transferUrl":[ 
-
-		"/api"
-
-	],
-	"workspace":"D:\\data\\",
-
-	"localFile":{
-
-		"a":"ab.html"
-
-	},
-
-	"ignoreQuestionMark":true
+		"ignoreQuestionMark":true
 }
 
 
