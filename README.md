@@ -33,57 +33,49 @@
 
 config.json配置：
 
-   server：需要远程代理的服务器域名或者ip,如"www.baidu.com"
+   		server：需要远程代理的服务器域名或者ip,如"www.baidu.com"
 
 
-   port: 需要远程代理的服务器的端口,如"80"
+   		port: 需要远程代理的服务器的端口,如"80"
 
 
-   proxyPort：本机通过哪个端口访问远程服务器,如"8888"
+   		proxyPort：本机通过哪个端口访问远程服务器,如"8888"
 
 
-   transferUrl：以配置的列表里面开头的请求，全部转发到远程服务器
+   		transferUrl：以配置的列表里面开头的请求，全部转发到远程服务器
 
 
-   workspace：本地静态目录的路径
+   		workspace：本地静态目录的路径
 
 
-   localFile：键值对，请求url为指定的key的时候，读取的是本地value路径的资源
+   		localFile：键值对，请求url为指定的key的时候，读取的是本地value路径的资源
 
 
-   ignoreQuestionMark：访问静态文件的时候，是否要忽略"?"极其后面的url部分。用来处理有localhost:8888/index.html?jstime=123456789的类似的情况
+   		ignoreQuestionMark：访问静态文件的时候，是否要忽略"?"极其后面的url部分。用来处理有localhost:8888/index.html?jstime=123456789的类似的情况
 
 
 完整配置DEMO如下:
+
 {
 	"server":"www.baidu.com",
 
-
 	"port":"80", 
-
 
 	"proxyPort":"8888",    
 
-
 	"transferUrl":[ 
 
-
 		"/api"
-
 
 	],
 	"workspace":"D:\\data\\",
 
-
 	"localFile":{
-
 
 		"a":"ab.html"
 
-
 	},
 
-	
 	"ignoreQuestionMark":true
 }
 
