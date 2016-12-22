@@ -56,7 +56,9 @@ config.json配置：
 
 完整配置DEMO如下:
 
+
 {
+
 	"server":"www.baidu.com",
 
 	"port":"80", 
