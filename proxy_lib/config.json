@@ -1,14 +1,32 @@
-{
-	"server":"localhost",
-	"port":"8080",                     
-	"proxyPort":"8888",               
-	"transferUrl":[                 
-		"/api"
-	],
-	"workspace":"D:\\GURU\\workspace\\WebContent",
-	"localFile":{
-		"a":"ab.html"
+[
+	{
+		"remoteServer":"baidu.com",
+		"remotePort":"80",                     
+		"localProxyPort":"8888",               
+		"transferUrl":[                 
+			"/api"
+		],
+		"workspace":"",
+		"localFile":{
+			"a":"ab.html"
 
+		},
+		"ignoreQuestionMark":true
 	},
-	"ignoreQuestionMark":true
-}
+	{
+		"remoteServer":"gelonghui.com",
+		"remotePort":"80",                     
+		"localProxyPort":"9999",               
+		"transferUrl":[                 
+			"/api"
+		],
+		"workspace":"D:\\Admin_Web\\WebContent\\",
+		"localFile":{
+			"a":"ab.html"
+
+		},
+		"ignoreQuestionMark":true
+	}
+
+
+]

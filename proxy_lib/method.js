@@ -1,10 +1,10 @@
 var http = require("http");
 
-var config  = require("./config");
+//var config  = require("./config");
 var common = require("./commonUtil");
 
 
-function get(options,proxyResponse){
+function get(options,proxyResponse,serverConfig){
 
 	var req = http.request(options, function(serverRes) {
 
@@ -15,9 +15,13 @@ function get(options,proxyResponse){
 			body += chunk;
 		});
 
+
 		serverRes.on('end', function() {
 
 			var headers = serverRes.headers;
+
+			console.log(serverRes.statusCode);
+
 			var serverLocation = headers.location;
 
 			if(serverRes.statusCode == 302){
@@ -43,7 +47,7 @@ function get(options,proxyResponse){
 						serverLocation = serverLocation.replace("localhost" , "localhost:80");
 					}
 
-					serverLocation = serverLocation.replace(redirctPort,config.proxyPort);
+					serverLocation = serverLocation.replace(redirctPort,serverConfig.remotePort);
 
 					headers.location = serverLocation;
 
@@ -54,7 +58,7 @@ function get(options,proxyResponse){
 			proxyResponse.writeHead(serverRes.statusCode, headers);
     		proxyResponse.write(body);
 
-    		//console.log(body);
+    		console.log(body);
     		
     		proxyResponse.end();
 

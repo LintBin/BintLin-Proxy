@@ -9,11 +9,24 @@ var common = require("./proxy_lib/commonUtil");
 var method = require("./proxy_lib/method");
 
 
-http.createServer(function(req, proxyRes){
+for(var i in config){
+
+	var serverConfig = config[i];
+
+	initServer(serverConfig);
+
+	console.log("init server ,the port is " + serverConfig.localProxyPort + ",fiished!");
+}
+
+
+
+
+function initServer(serverConfig){
+	http.createServer(function(req, proxyRes){
 
 	var requestUrl = req.url;
 
-	var transferUrls = config.transferUrl;
+	var transferUrls = serverConfig.transferUrl;
 
 	var flag = false;
 
@@ -27,7 +40,7 @@ http.createServer(function(req, proxyRes){
 		}
 	}
 
-	var localFileObj = config.localFile;
+	var localFileObj = serverConfig.localFile;
 
 
 
@@ -49,8 +62,8 @@ http.createServer(function(req, proxyRes){
 	//如果需要从服务器请求数据
 	if(flag){
 		var options = {
-			hostname: config.server,
-			port: config.port,
+			hostname: serverConfig.remoteServer,
+			port: serverConfig.remotePort,
 			path: requestUrl,
 			headers:req.headers
 		}
@@ -86,7 +99,7 @@ http.createServer(function(req, proxyRes){
 			options.method = "GET";
 
 			//是否要忽略掉"?"
-			if(config.ignoreQuestionMark){
+			if(serverConfig.ignoreQuestionMark){
 				if(requestUrl.indexOf(".html") != -1 || requestUrl.indexOf(".js") || requestUrl.indexOf(".css") ){
 					var questionMarkIndex = requestUrl.indexOf("?");
 					if(questionMarkIndex != -1){
@@ -107,12 +120,18 @@ http.createServer(function(req, proxyRes){
 	    return ;
 	}
 
+	console.log(" requestUrl112:" + requestUrl);
+
 	//从本地取数据
 	requestUrl = requestUrl.slice(1,requestUrl.length);
 
-	if(config.workspace != "" && config.workspace != undefined){
-		local_workspace = config.workspace + requestUrl;
+	if(serverConfig.workspace != "" && serverConfig.workspace != undefined){
+		local_workspace = serverConfig.workspace + requestUrl;
+	}else{
+		local_workspace = requestUrl;
 	}
+
+	console.log(local_workspace);
 
 	fs.readFile(local_workspace,function (err, data){
 		//如果在本地找不到则到服务器端去找
@@ -121,15 +140,15 @@ http.createServer(function(req, proxyRes){
 			console.log("404 for this page :" + requestUrl);
 
 			var options = {
-				hostname: config.server,
-				port: config.port,
+				hostname: serverConfig.remoteServer,
+				port: serverConfig.remotePort,
 				path: "/" + requestUrl,
 				headers:req.headers
 			}
 
 
-			//console.log("requestUrl:" + requestUrl);
-			method.get(options,proxyRes);
+			console.log("requestUrl:" + requestUrl);
+			method.get(options,proxyRes,serverConfig);
 
         }else{
 
@@ -156,4 +175,8 @@ http.createServer(function(req, proxyRes){
 
 
 
-}).listen(config.proxyPort);
+	}).listen(serverConfig.localProxyPort);
+}
+
+
+
