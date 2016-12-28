@@ -17,7 +17,7 @@
 1、修改proxy_lib中的config.json文件，将其配置成自己代理文件
 
 
-2、启动用node命令启动server.js ，即运行node server.js命令行
+2、双击start-proxy.bat文件即可运行代理
 
 
 
