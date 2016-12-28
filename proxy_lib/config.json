@@ -1,11 +1,11 @@
 {
 	"server":"localhost",
-	"port":"13335",                     
+	"port":"8080",                     
 	"proxyPort":"8888",               
 	"transferUrl":[                 
 		"/api"
 	],
-	"workspace":"",
+	"workspace":"D:\\GURU\\workspace\\WebContent",
 	"localFile":{
 		"a":"ab.html"
 

@@ -93,6 +93,8 @@ http.createServer(function(req, proxyRes){
 
 						requestUrl = requestUrl.substring(0,questionMarkIndex - 1);
 
+						console.log(requestUrl);
+
 					}
 				}
 			}
@@ -109,10 +111,10 @@ http.createServer(function(req, proxyRes){
 	requestUrl = requestUrl.slice(1,requestUrl.length);
 
 	if(config.workspace != "" && config.workspace != undefined){
-		requestUrl = config.workspace + requestUrl
+		local_workspace = config.workspace + requestUrl;
 	}
 
-	fs.readFile(requestUrl,function (err, data){
+	fs.readFile(local_workspace,function (err, data){
 		//如果在本地找不到则到服务器端去找
 		if (err){
 
@@ -126,7 +128,7 @@ http.createServer(function(req, proxyRes){
 			}
 
 
-			
+			//console.log("requestUrl:" + requestUrl);
 			method.get(options,proxyRes);
 
         }else{
