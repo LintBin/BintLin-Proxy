@@ -1,12 +1,12 @@
 [
 	{
-		"remoteServer":"baidu.com",
-		"remotePort":"80",                     
+		"remoteServer":"localhost",
+		"remotePort":"8080",                     
 		"localProxyPort":"8888",               
 		"transferUrl":[                 
 			"/api"
 		],
-		"workspace":"",
+		"workspace":"D:/git-workspace/WebContent/",
 		"localFile":{
 			"a":"ab.html"
 
@@ -14,13 +14,13 @@
 		"ignoreQuestionMark":true
 	},
 	{
-		"remoteServer":"gelonghui.com",
-		"remotePort":"80",                     
+		"remoteServer":"14.215.177.37",
+		"remotePort":"80",
 		"localProxyPort":"9999",               
-		"transferUrl":[                 
+		"transferUrl":[
 			"/api"
 		],
-		"workspace":"D:\\Admin_Web\\WebContent\\",
+		"workspace":"D:/git-workspace/WebContent/",
 		"localFile":{
 			"a":"ab.html"
 

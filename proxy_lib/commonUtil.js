@@ -5,7 +5,7 @@ function endWith(str , substr){
 
 	var substrLength = substr.length;
 
-	var endSubStr = str.substr(str-substr,str.length);
+	var endSubStr = str.substr(str.length-substrLength,str.length);
 
 	if(endSubStr == substr){
 		return true;

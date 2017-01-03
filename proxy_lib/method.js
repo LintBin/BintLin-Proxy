@@ -20,8 +20,6 @@ function get(options,proxyResponse,serverConfig){
 
 			var headers = serverRes.headers;
 
-			console.log(serverRes.statusCode);
-
 			var serverLocation = headers.location;
 
 			if(serverRes.statusCode == 302){
@@ -58,8 +56,6 @@ function get(options,proxyResponse,serverConfig){
 			proxyResponse.writeHead(serverRes.statusCode, headers);
     		proxyResponse.write(body);
 
-    		console.log(body);
-    		
     		proxyResponse.end();
 
     		

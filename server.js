@@ -106,12 +106,9 @@ function initServer(serverConfig){
 
 						requestUrl = requestUrl.substring(0,questionMarkIndex - 1);
 
-						console.log(requestUrl);
-
 					}
 				}
 			}
-
 
 			method.get(options,proxyRes);
 
@@ -120,20 +117,31 @@ function initServer(serverConfig){
 	    return ;
 	}
 
-	console.log(" requestUrl112:" + requestUrl);
-
 	//从本地取数据
-	requestUrl = requestUrl.slice(1,requestUrl.length);
+	//requestUrl = requestUrl.slice(1,requestUrl.length);
+	var local_workspace_path = serverConfig.workspace;
+	
+	if(local_workspace_path != "" && local_workspace_path != undefined){
 
-	if(serverConfig.workspace != "" && serverConfig.workspace != undefined){
-		local_workspace = serverConfig.workspace + requestUrl;
+		console.log(local_workspace_path);
+
+		if(common.endWith(local_workspace_path,"/")){
+
+			local_workspace_path = local_workspace_path.slice(0,local_workspace_path.length-1);
+		}
+
+		console.log(local_workspace_path);
+
+		local_request_uri = local_workspace_path + requestUrl;
+
 	}else{
-		local_workspace = requestUrl;
+
+		local_request_uri = requestUrl;
 	}
 
-	console.log(local_workspace);
+	console.log(local_request_uri);
 
-	fs.readFile(local_workspace,function (err, data){
+	fs.readFile(local_request_uri ,function readFileCallback(err, data){
 		//如果在本地找不到则到服务器端去找
 		if (err){
 
@@ -142,35 +150,36 @@ function initServer(serverConfig){
 			var options = {
 				hostname: serverConfig.remoteServer,
 				port: serverConfig.remotePort,
-				path: "/" + requestUrl,
+				path: requestUrl,
 				headers:req.headers
 			}
 
-
-			console.log("requestUrl:" + requestUrl);
 			method.get(options,proxyRes,serverConfig);
 
-        }else{
+	    }else{
 
-        	//在本地找静态资源
-        	var responseHeader = {
-        		"Server":"Apache-Coyote/1.1",
-        	}
+	    	//在本地找静态资源
+	    	var responseHeader = {
+	    		"Server":"Apache-Coyote/1.1",
+	    	}
 
-        	if(common.endWith(requestUrl,".html")){
-        		responseHeader['Content-Type'] = "text/html;charset=UTF8";
-        	}
+	    	if(common.endWith(requestUrl,".html")){
+	    		responseHeader['Content-Type'] = "text/html;charset=UTF8";
+	    	}
 
-        	if(common.startWith(requestUrl,".css")){
-        		responseHeader['Content-Type'] = "css/html;charset=UTF8";
-        	}
-        	
-        	responseHeader['Content-Length'] = data.length;
+	    	if(common.startWith(requestUrl,".css")){
+	    		responseHeader['Content-Type'] = "css/html;charset=UTF8";
+	    	}
+	    	
+	    	responseHeader['Content-Length'] = data.length;
 
-            proxyRes.writeHead(200, responseHeader);
-            proxyRes.write(data);
-            proxyRes.end();
-        }
+	        proxyRes.writeHead(200, responseHeader);
+	        proxyRes.write(data);
+
+	        console.log("local file : " + local_request_uri);
+	        proxyRes.end();
+
+		}
 	});
 
 
