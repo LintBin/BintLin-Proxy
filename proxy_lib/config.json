@@ -1,32 +1,38 @@
-[
-	{
-		"remoteServer":"localhost",
-		"remotePort":"8080",                     
-		"localProxyPort":"8888",               
-		"transferUrl":[                 
-			"/api"
-		],
-		"workspace":"D:/git-workspace/WebContent/",
-		"localFile":{
-			"a":"ab.html"
-
-		},
-		"ignoreQuestionMark":true
+{
+	"totalProxy":{
+		"a.com":"a",
+		"b.com":"b"
 	},
-	{
-		"remoteServer":"14.215.177.37",
-		"remotePort":"80",
-		"localProxyPort":"9999",               
-		"transferUrl":[
-			"/api"
-		],
-		"workspace":"D:/git-workspace/WebContent/",
-		"localFile":{
-			"a":"ab.html"
+	"proxy":[
+		{
+			"id":"a",
+			"remoteServer":"localhost",
+			"remotePort":"8080",                     
+			"localProxyPort":"8888",               
+			"transferUrl":[                 
+				"/api"
+			],
+			"workspace":"D:/git-workspace/WebContent/",
+			"localFile":{
+				"a":"ab.html"
 
+			},
+			"ignoreQuestionMark":true
 		},
-		"ignoreQuestionMark":true
-	}
+		{
+			"id":"b",
+			"remoteServer":"14.215.177.37",
+			"remotePort":"80",
+			"localProxyPort":"9999",               
+			"transferUrl":[
+				"/api"
+			],
+			"workspace":"D:/git-workspace/WebContent/",
+			"localFile":{
+				"a":"ab.html"
 
-
-]
+			},
+			"ignoreQuestionMark":true
+		}
+	]
+}
