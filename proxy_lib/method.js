@@ -100,8 +100,12 @@ function post(options,postData,proxyRes){
 		console.log('problem with request: ' + e.message);
 	});
 
-	// write data to request body
-	req.write(postData);
+
+	if(postData != undefined ){
+		// write data to request body
+		req.write(postData);
+	}
+
 	req.end();
 }
 

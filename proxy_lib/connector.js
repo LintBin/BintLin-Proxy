@@ -21,14 +21,11 @@ function readFromLocalFile(localRequestUri,proxyRes){
 function postForward(request,options,proxyRes){
 
 
-
+	var postData ;
 	request.on('data',function(data){
 
 
 		var contentType = request.headers['content-type'];
-
-		var postData;
-
 
 		if(common.startWith(contentType,"multipart/form-data")){
 		
@@ -40,10 +37,14 @@ function postForward(request,options,proxyRes){
 
 		}
 
+	});
+
+
+	request.on('end' , function(){
+
 		options.method = "POST";
 
 		method.post(options,postData,proxyRes);
-		
 	});
 }
 
