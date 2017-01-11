@@ -7,10 +7,13 @@ var config = require("./proxy_lib/config");
 var console = require("./proxy_lib/log");
 var common = require("./proxy_lib/commonUtil");
 var method = require("./proxy_lib/method");
+var connector = require("./proxy_lib/connector");
 
 
 
 var totalProxy = config.totalProxy;
+var serverConfigList = config.proxy;
+
 if(JSON.stringify(totalProxy) != "{}"){ 
 	http.createServer(function(req, proxyRes){
 
@@ -18,11 +21,39 @@ if(JSON.stringify(totalProxy) != "{}"){
 
 		var id = totalProxy[hostname];
 
+		var requestUrl = req.url;
+
+		for(var i in serverConfigList){
+			var serverConfig = serverConfigList[i];
+
+			if(serverConfig.id == id){
+
+				var options = {
+					hostname: "localhost",
+					port: serverConfig.localProxyPort,
+					path: requestUrl,
+					headers:req.headers
+				}
+				var methodStr = req.method.toUpperCase();
+
+				if(methodStr == "POST"){
+					options.method = "POST";
+					connector.postForward(req,options,proxyRes);
+				}
+
+				if(methodStr == "GET"){
+					options.method = "GET";
+					connector.getForward(options,proxyRes,serverConfig);
+				}
+
+			}
+
+		}
 		
 	}).listen(80);
 }
 
-var serverConfigList = config.proxy;
+
 for(var i in serverConfigList){
 
 	var serverConfig = serverConfigList[i];
@@ -32,6 +63,11 @@ for(var i in serverConfigList){
 	console.log("init server ,the port is " + serverConfig.localProxyPort + ",fiished!");
 }
 
+
+/*function getProxyConfig(){
+
+}
+*/
 
 
 
@@ -83,7 +119,7 @@ function initServer(serverConfig){
 
 			if(methodStr == "POST"){
 
-				req.on('data',function(data){
+				/*req.on('data',function(data){
 
 					var contentType = req.headers['content-type'];
 
@@ -102,26 +138,18 @@ function initServer(serverConfig){
 
 					method.post(options,postData,proxyRes);
 					
-				});
+				});*/
+
+				connector.postForward(req,options,proxyRes);
+				
 				return ;
 			}
 
 			if(methodStr == "GET"){
 				options.method = "GET";
 
-				//是否要忽略掉"?"
-				if(serverConfig.ignoreQuestionMark){
-					if(requestUrl.indexOf(".html") != -1 || requestUrl.indexOf(".js") || requestUrl.indexOf(".css") ){
-						var questionMarkIndex = requestUrl.indexOf("?");
-						if(questionMarkIndex != -1){
-
-							requestUrl = requestUrl.substring(0,questionMarkIndex - 1);
-
-						}
-					}
-				}
-
-				method.get(options,proxyRes);
+				options.path = ignoreQuestionMark(serverConfig,requestUrl);
+				connector.getForward(options,proxyRes,serverConfig);
 
 			}
 
@@ -131,7 +159,7 @@ function initServer(serverConfig){
 		//从本地取数据
 		var localWorkspacePath = serverConfig.workspace;
 
-		var localRequestUri ;
+		var localRequestUri = null;
 		
 		if(localWorkspacePath != "" && localWorkspacePath != undefined){
 
@@ -147,21 +175,26 @@ function initServer(serverConfig){
 			localRequestUri = requestUrl;
 		}
 
+		localRequestUri = ignoreQuestionMark(serverConfig,localRequestUri);
 
 		fs.readFile(localRequestUri ,function (err, data){
 			//如果在本地找不到则到服务器端去找
 			if (err){
 
-				console.log("404 for this page :" + requestUrl);
+				var host = serverConfig.remoteServer;
+				var port = serverConfig.remotePort;
+
+				console.log("load file from remote server :" );
+				console.log(host + ":" + port + requestUrl);
 
 				var options = {
-					hostname: serverConfig.remoteServer,
-					port: serverConfig.remotePort,
+					hostname: host,
+					port: port,
 					path: requestUrl,
 					headers:req.headers
 				}
 
-				method.get(options,proxyRes,serverConfig);
+				connector.getForward(options,proxyRes,serverConfig);
 
 		    }else{
 
@@ -196,3 +229,19 @@ function initServer(serverConfig){
 
 
 
+function ignoreQuestionMark(serverConfig,requestUrl){
+	if(serverConfig.ignoreQuestionMark){
+
+		if(requestUrl.indexOf(".html") != -1 || requestUrl.indexOf(".js") || requestUrl.indexOf(".css") ){
+			var questionMarkIndex = requestUrl.indexOf("?");
+
+			if(questionMarkIndex != -1){
+
+				requestUrl = requestUrl.substring(0,questionMarkIndex);
+
+			}
+		}
+	}
+
+	return requestUrl;
+}
