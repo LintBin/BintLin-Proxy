@@ -1,7 +1,7 @@
 var fs = require('fs');
 
 var method = require("./method");
-
+var common = require("./commonUtil");
 
 
 function readFromLocalFile(localRequestUri,proxyRes){
@@ -13,19 +13,23 @@ function readFromLocalFile(localRequestUri,proxyRes){
 		return "";
 	}
 
-
 	return localFlileData;
-
 }
 
 
 
 function postForward(request,options,proxyRes){
+
+
+
 	request.on('data',function(data){
+
 
 		var contentType = request.headers['content-type'];
 
 		var postData;
+
+
 		if(common.startWith(contentType,"multipart/form-data")){
 		
 			postData = data;

@@ -140,6 +140,7 @@ function initServer(serverConfig){
 					
 				});*/
 
+
 				connector.postForward(req,options,proxyRes);
 				
 				return ;
@@ -149,6 +150,8 @@ function initServer(serverConfig){
 				options.method = "GET";
 
 				options.path = ignoreQuestionMark(serverConfig,requestUrl);
+
+				console.log(options.path);
 				connector.getForward(options,proxyRes,serverConfig);
 
 			}
@@ -232,7 +235,7 @@ function initServer(serverConfig){
 function ignoreQuestionMark(serverConfig,requestUrl){
 	if(serverConfig.ignoreQuestionMark){
 
-		if(requestUrl.indexOf(".html") != -1 || requestUrl.indexOf(".js") || requestUrl.indexOf(".css") ){
+		if(requestUrl.indexOf(".html") != -1 || requestUrl.indexOf(".js")!= -1  || requestUrl.indexOf(".css")!= -1  ){
 			var questionMarkIndex = requestUrl.indexOf("?");
 
 			if(questionMarkIndex != -1){
