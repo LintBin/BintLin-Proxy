@@ -64,12 +64,6 @@ for(var i in serverConfigList){
 }
 
 
-/*function getProxyConfig(){
-
-}
-*/
-
-
 
 function initServer(serverConfig){
 	http.createServer(function(req, proxyRes){
@@ -118,27 +112,6 @@ function initServer(serverConfig){
 			var methodStr = req.method.toUpperCase();
 
 			if(methodStr == "POST"){
-
-				/*req.on('data',function(data){
-
-					var contentType = req.headers['content-type'];
-
-					var postData;
-					if(common.startWith(contentType,"multipart/form-data")){
-					
-						postData = data;
-
-					}else{
-
-						postData = decodeURIComponent(data);
-
-					}
-
-					options.method = "POST";
-
-					method.post(options,postData,proxyRes);
-					
-				});*/
 
 
 				connector.postForward(req,options,proxyRes);
