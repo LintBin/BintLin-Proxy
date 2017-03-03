@@ -14,7 +14,7 @@ var connector = require("./proxy_lib/connector");
 var totalProxy = config.totalProxy;
 var serverConfigList = config.proxy;
 
-if(JSON.stringify(totalProxy) != "{}"){ 
+/*if(JSON.stringify(totalProxy) != "{}"){ 
 	http.createServer(function(req, proxyRes){
 
 		var hostname = req.headers.host;
@@ -51,7 +51,7 @@ if(JSON.stringify(totalProxy) != "{}"){
 		}
 		
 	}).listen(80);
-}
+}*/
 
 
 for(var i in serverConfigList){
