@@ -85,7 +85,7 @@ config.json配置：
 					"ignoreQuestionMark":true
 				}
 			]
-}
+		}
 
 
 
