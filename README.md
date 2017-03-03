@@ -47,43 +47,44 @@ config.json配置：
 完整配置DEMO如下:
 
 
-{
-	"totalProxy":{
-		"a.com":"a",
-		"b.com":"b"
-	},
-	"proxy":[
-		{
-			"id":"a",
-			"remoteServer":"localhost",
-			"remotePort":"8080",                     
-			"localProxyPort":"8888",               
-			"transferUrl":[                 
-				"/api"
-			],
-			"workspace":"D:/git-workspace/WebContent/",
-			"localFile":{
-				"a":"ab.html"
 
-			},
-			"ignoreQuestionMark":true
-		},
 		{
-			"id":"b",
-			"remoteServer":"180.149.132.47",
-			"remotePort":"80",
-			"localProxyPort":"9999",               
-			"transferUrl":[
-				"/api"
-			],
-			"workspace":"D:/git-workspace/WebContent/",
-			"localFile":{
-				"a":"ab.html"
-
+			"totalProxy":{
+				"a.com":"a",
+				"b.com":"b"
 			},
-			"ignoreQuestionMark":true
-		}
-	]
+			"proxy":[
+				{
+					"id":"a",
+					"remoteServer":"localhost",
+					"remotePort":"8080",                     
+					"localProxyPort":"8888",               
+					"transferUrl":[                 
+						"/api"
+					],
+					"workspace":"D:/git-workspace/WebContent/",
+					"localFile":{
+						"a":"ab.html"
+
+					},
+					"ignoreQuestionMark":true
+				},
+				{
+					"id":"b",
+					"remoteServer":"180.149.132.47",
+					"remotePort":"80",
+					"localProxyPort":"9999",               
+					"transferUrl":[
+						"/api"
+					],
+					"workspace":"D:/git-workspace/WebContent/",
+					"localFile":{
+						"a":"ab.html"
+
+					},
+					"ignoreQuestionMark":true
+				}
+			]
 }
 
 
